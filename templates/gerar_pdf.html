@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 1.5rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        #mensagem {
+            color: red;
+            margin-top: 1rem;
+        }
+        .info {
+            font-size: 14px;
+            color: #777;
+            margin-top: 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+                width: 100%;
+            }
+            label {
+                font-size: 14px;
+            }
+            button {
+                font-size: 14px;
+                padding: 0.6rem 1rem;
+            }
+            .back-button {
+                font-size: 14px;
+                padding: 0.6rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerar PDF</h1>
+        <form method="POST" action="/gerar_pdf">
+            <label for="professores"><input id="professores" type="checkbox" name="tabelas" value="professores"> Professores</label>
+            <label for="turmas"><input id="turmas" type="checkbox" name="tabelas" value="turmas"> Turmas</label>
+            <label for="alunos"><input id="alunos" type="checkbox" name="tabelas" value="alunos"> Alunos</label>
+            <label for="transacoes"><input id="transacoes" type="checkbox" name="tabelas" value="transacoes"> Transações (7Coins)</label>
+            <label for="ocorrencias"><input id="ocorrencias" type="checkbox" name="tabelas" value="ocorrencias"> Ocorrências</label>
+            <label for="responsaveis"><input id="responsaveis" type="checkbox" name="tabelas" value="responsaveis"> Responsáveis</label>
+            <button type="submit">Gerar PDF</button>
+        </form>
+        <p class="info">Os alunos aparecerão organizados por turma no relatório gerado.</p>
+        <a href="/dashboard_professor" class="back-button">Voltar à Dashboard do Professor</a>
+        <div id="mensagem"></div>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            if (checkboxes.length === 0) {
+                e.preventDefault();
+                document.getElementById('mensagem').innerText = "Por favor, selecione pelo menos uma tabela.";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Ocorrências da Turma {{ turma[0] }}</title>
+</head>
+<body>
+    <h1>Ocorrências da Turma {{ turma[0] }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Aluno</th>
+                <th>Tipo de Ocorrência</th>
+                <th>Motivo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ocorrencia in ocorrencias %}
+                <tr>
+                    <td>{{ ocorrencia[0] }}</td>
+                    <td>{{ ocorrencia[1] }}</td>
+                    <td>{{ ocorrencia[2] }}</td>
+                    <td>{{ ocorrencia[3] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Botão para voltar à lista de turmas -->
+    <a href="{{ url_for('visualizar_ocorrencias_turmas') }}" class="btn">Voltar à Lista de Turmas</a>
+</body>
+</html>

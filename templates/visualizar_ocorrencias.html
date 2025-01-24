@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Visualizar e Excluir Ocorrências</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            font-size: 1em;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            font-size: 1em;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        td {
+            color: #555;
+        }
+
+        td[colspan] {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            padding: 15px 0;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Visualizar e Excluir Ocorrências</h1>
+
+    <!-- Formulário para escolher a turma -->
+    <form method="GET" action="{{ url_for('visualizar_ocorrencias') }}">
+        <label for="turma_id">Selecione a Turma:</label>
+        <select id="turma_id" name="turma_id" required>
+            <option value="">Selecione uma turma</option>
+            {% for turma in turmas %}
+                <option value="{{ turma[0] }}" {% if turma_selecionada == turma[0] %} selected {% endif %}>
+                    {{ turma[1] }}
+                </option>
+            {% endfor %}
+        </select>
+        <div class="button-container">
+            <button type="submit" class="btn">Ver Ocorrências</button>
+            <a href="{{ url_for('dashboard_professor') }}" class="btn">Voltar</a>
+            <!-- Botão para download em PDF -->
+            {% if turma_selecionada %}
+            <a href="{{ url_for('download_ocorrencias_pdf', turma_id=turma_selecionada) }}" class="btn">
+                Baixar PDF
+            </a>
+            {% endif %}
+        </div>
+    </form>
+
+    <!-- Tabela de ocorrências -->
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Aluno</th>
+                <th>Turma</th>
+                <th>Tipo de Ocorrência</th>
+                <th>Motivo</th>
+                <th>Dias de Suspensão</th>
+                <th>Chamar Responsável</th>
+                <th>Data da Reunião</th>
+                <th>Hora da Reunião</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if ocorrencias %}
+                {% for ocorrencia in ocorrencias %}
+                    <tr>
+                        <td>{{ ocorrencia[3] }}</td> <!-- Data -->
+                        <td>{{ ocorrencia[1] }}</td> <!-- Nome do aluno -->
+                        <td>{{ ocorrencia[2] }}</td> <!-- Turma -->
+                        <td>{{ ocorrencia[4] }}</td> <!-- Tipo de Ocorrência -->
+                        <td>{{ ocorrencia[5] }}</td> <!-- Motivo -->
+                        <td>{{ ocorrencia[6] if ocorrencia[4] == 'SUSPENSAO' else 'N/A' }}</td> <!-- Dias de Suspensão -->
+                        <td>{{ 'Sim' if ocorrencia[7] == 'sim' else 'Não' }}</td> <!-- Chamar Responsável -->
+                        <td>{{ ocorrencia[8] }}</td> <!-- Data da Reunião -->
+                        <td>{{ ocorrencia[9] }}</td> <!-- Hora da Reunião -->
+                        <td>
+                            <form method="POST" action="{{ url_for('excluir_ocorrencia') }}">
+                                <input type="hidden" name="ocorrencia_id" value="{{ ocorrencia[0] }}">
+                                <button type="submit" class="btn">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="10">Nenhuma ocorrência encontrada para a turma selecionada.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>© 2024 CEF 07 de Sobradinho - Desenvolvido pelo Professor Wellton Sávio</p>
+    </footer>
+</body>
+</html>

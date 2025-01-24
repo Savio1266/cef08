@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Acesso Gincana Moderador</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            background: #fff;
+            color: #333;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background: #0056b3;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acesso Gincana Moderador</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="senha_moderador">Senha do Moderador:</label>
+                <input type="password" id="senha_moderador" name="senha_moderador" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Acessar</button>
+            </div>
+        </form>
+
+        {% if mensagem %}
+        <div class="error-message">
+            <p>{{ mensagem }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sistema 7Coins</p>
+    </footer>
+</body>
+</html>

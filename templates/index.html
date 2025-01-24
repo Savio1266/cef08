@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>CEF 07 - Página Inicial</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            background: #fff;
+            color: #333;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #0056b3;
+            animation: fadeIn 2s ease;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+            animation: fadeIn 2.5s ease;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            animation: fadeIn 3s ease;
+        }
+
+        .button-group .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 15px 30px;
+            border-radius: 10px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .button-group .btn-moderador {
+            background: #007bff; /* Azul */
+        }
+
+        .button-group .btn-moderador:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .button-group .btn-estudante {
+            background: #ffc107; /* Amarelo */
+        }
+
+        .button-group .btn-estudante:hover {
+            background: #e0a800;
+            transform: scale(1.05);
+        }
+
+        .button-group .btn-responsavel {
+            background: #28a745; /* Verde */
+        }
+
+        .button-group .btn-responsavel:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .recados {
+            margin-top: 30px;
+            text-align: left;
+            background: linear-gradient(135deg, #ffefba, #ffffff);
+            color: #333;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 3.5s ease;
+        }
+
+        .recados h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #dc3545;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .recado-item {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 4px solid #dc3545;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+            animation: fadeIn 4s ease;
+        }
+
+        .footer span {
+            display: block;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/static/logo.jpg" alt="Logo do Sistema" class="logo">
+        <h1>Bem-vindo ao Sistema de Ocorrências do CEF 08</h1>
+        <p>Escolha sua função para acessar o sistema:</p>
+        <div class="button-group">
+            <a href="/login" class="btn btn-moderador"><i class="fas fa-user-tie"></i> Moderador/Professor</a>
+            <a href="/login_responsavel" class="btn btn-responsavel"><i class="fas fa-users"></i> Responsável</a>
+        </div>
+
+        {% if recados %}
+        <div class="recados">
+            <h2>Atenção! Avisos Importantes:</h2>
+            {% for recado in recados %}
+            <div class="recado-item">
+                <strong>Aviso {{ loop.index }}:</strong> {{ recado.conteudo }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="footer">
+            Desenvolvido pelo professor Wellton Sávio
+            <span>Contato: saviomtm@gmail.com</span>
+        </div>
+    </div>
+</body>
+</html>

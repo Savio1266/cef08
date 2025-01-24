@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsáveis Cadastrados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 25px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+        }
+
+        select {
+            padding: 8px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            flex: 1;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-size: 16px;
+            color: #333;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background: #b02a37;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        p {
+            text-align: center;
+            color: #555;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Responsáveis Cadastrados</h2>
+        <form action="{{ url_for('visualizar_responsaveis') }}" method="GET">
+            <label for="turma_id">Filtrar por Turma:</label>
+            <select id="turma_id" name="turma_id">
+                {% for turma in turmas %}
+                    <option value="{{ turma[0] }}">{{ turma[1] }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn">Filtrar</button>
+        </form>
+
+        {% if responsaveis %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Responsável</th>
+                        <th>Aluno</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for responsavel in responsaveis %}
+                    <tr>
+                        <td>{{ responsavel[0] }}</td>
+                        <td>{{ responsavel[1] }}</td>
+                        <td>
+                            <form action="{{ url_for('excluir_responsavel') }}" method="POST" onsubmit="return confirm('Confirma a exclusão?');">
+                                <input type="hidden" name="responsavel_id" value="{{ responsavel[2] }}">
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum responsável encontrado para a turma selecionada.</p>
+        {% endif %}
+
+        <!-- Botão para voltar à dashboard -->
+        <a href="{{ url_for('dashboard_professor') }}" class="btn-secondary">Voltar para Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Histórico do Aluno</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #007bff, #6c757d);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        ul li {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+            color: #555;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li strong {
+            color: #28a745;
+        }
+
+        ul li em {
+            color: #6c757d;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        @media (max-width: 768px) {
+            ul li {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Histórico de Transações</h1>
+        {% if historico %}
+            <ul>
+                {% for transacao in historico %}
+                    <li>
+                        <strong>{{ transacao.tipo }}</strong>
+                        {{ transacao.quantidade }} 7Coins<br>
+                        <em>Motivo:</em> {{ transacao.motivo }}<br>
+                        <small><em>Data:</em> {{ transacao.data }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Não há transações registradas para este aluno.</p>
+        {% endif %}
+        <a href="/dashboard_professor" class="btn-secondary">Voltar</a>
+    </div>
+</body>
+</html>

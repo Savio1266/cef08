@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professores Cadastrados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #007bff, #6c757d);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            background: #fff;
+            color: #333;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #c82333;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            background: #28a745;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        a:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Professores Cadastrados</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Login</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for professor in professores %}
+                <tr>
+                    <td>{{ professor['login'] }}</td>
+                    <td>
+                        <form action="{{ url_for('excluir_professor', professor_id=professor['id']) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('dashboard_moderador') }}">Voltar ao Dashboard</a>
+</body>
+</html>
